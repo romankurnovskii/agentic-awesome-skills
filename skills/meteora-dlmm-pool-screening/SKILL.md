@@ -1,8 +1,9 @@
 ---
 name: meteora-dlmm-pool-screening
 risk: safe
-source: romankurnovskii/etemaro
-source_type: self
+source: community
+source_repo: romankurnovskii/etemaro
+source_type: community
 date_added: "2026-09-17"
 description: >
   Screen and rank Meteora DLMM pools for LP quality using public Meteora APIs (fee/TVL,
@@ -101,6 +102,21 @@ If the API returns zero rows, say so and loosen one gate at a time (usually `max
 This skill only **GET**s public Meteora JSON. No `.env`, no keystore, no signing, no
 `deploy` / `swap` / `claim` / `close`. If the user wants live execution, point them at
 [Etemaro](https://etemaro.com) (repo: https://github.com/romankurnovskii/etemaro) and stop.
+
+## Limitations
+
+- Depends on Meteora's public datapi endpoints, which are undocumented, rate limited,
+  and can change or disappear without notice; this skill is not affiliated with Meteora.
+- All metrics are **windowed** (default 30m). Fee/TVL is not 24h APR, and past yield
+  does not predict future yield; impermanent loss, bin-step drift, and fill risk are
+  not modeled here.
+- Screening output is informational only and is **not financial advice**; a `pass`
+  verdict is not a recommendation to deposit funds.
+- Token scores rely on third-party organic-score and holder fields that may be stale,
+  manipulated, or wrong for new or low-liquidity tokens.
+- The embedded screener reads public data only; it never signs, swaps, or deploys, and
+  it intentionally has no execution path.
+- Respect the public API: send a User-Agent and poll conservatively.
 
 ## Go deeper — Etemaro
 
